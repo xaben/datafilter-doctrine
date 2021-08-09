@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Xaben\DataFilterDoctrine\Filter;
 
-use Xaben\DataFilter\Filter\BaseFilter;
 use Xaben\DataFilter\Filter\Filter;
 
-class LikeFilter extends BaseFilter implements Filter
+class LikeFilter extends DoctrineFilter implements Filter
 {
     public function getFilter(mixed $value): array
     {
@@ -15,8 +14,9 @@ class LikeFilter extends BaseFilter implements Filter
             return [];
         }
 
-        $result[$this->name]['statement'] = sprintf("%s LIKE :%s ESCAPE '!'", $this->columnName, $this->name);
-        $result[$this->name]['parameters'][$this->name] = $this->dataType->prepare($value);
+        $parameterName = $this->getParameterName();
+        $result[$parameterName]['statement'] = sprintf("%s LIKE :%s ESCAPE '!'", $this->columnName, $parameterName);
+        $result[$parameterName]['parameters'][$parameterName] = $this->dataType->prepare($value);
 
         return $result;
     }
