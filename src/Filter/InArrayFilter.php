@@ -27,14 +27,23 @@ class InArrayFilter extends DoctrineFilter implements Filter
             );
         }
 
-        $result[$parameterName]['statement'] = sprintf('%s IN (:%s)', $this->columnName, $parameterName);
-        $result[$parameterName]['parameters'][$parameterName] = $values;
 
-        return $result;
+        return [
+            $parameterName => [
+                'statement' => sprintf('%s IN (:%s)', $this->columnName, $parameterName),
+                'parameters' => [
+                    $parameterName => $values
+                ]
+            ]
+        ];
     }
 
-    protected function isValid($values)
+    protected function isValid(mixed $values): bool
     {
+        if (!is_array($values)) {
+            return false;
+        }
+
         if (empty($this->options['allowedValues'])) {
             return true;
         }

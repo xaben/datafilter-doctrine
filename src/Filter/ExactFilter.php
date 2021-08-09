@@ -15,9 +15,14 @@ class ExactFilter extends DoctrineFilter implements Filter
         }
 
         $parameterName = $this->getParameterName();
-        $result[$parameterName]['statement'] = sprintf('%s = :%s', $this->columnName, $parameterName);
-        $result[$parameterName]['parameters'][$parameterName] = $this->dataType->prepare($value);
 
-        return $result;
+        return [
+            $parameterName => [
+                'statement' => sprintf('%s = :%s', $this->columnName, $parameterName),
+                'parameters' => [
+                    $parameterName => $this->dataType->prepare($value)
+                ],
+            ],
+        ];
     }
 }

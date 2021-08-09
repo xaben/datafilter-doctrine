@@ -3,7 +3,7 @@
     "description": "Doctrine implementation for Filter library",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=8.0",
         "xaben/datafilter": "*",
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Xaben\\DataFilterDoctrine\\": ""
+            "Xaben\\DataFilterDoctrine\\": "src/"
         }
     }
 }
