@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Xaben\DataFilterDoctrine\Filter;
 
-use Xaben\DataFilter\Filter\AbstractFilter;
-use Xaben\DataFilter\Filter\FilterInterface;
+use Xaben\DataFilter\Filter\BaseFilter;
+use Xaben\DataFilter\Filter\Filter;
 
-class LikeFilter extends AbstractFilter implements FilterInterface
+class LikeFilter extends BaseFilter implements Filter
 {
-    public function getFilter($value): array
+    public function getFilter(mixed $value): array
     {
         if ($this->isEmpty($value)) {
             return [];

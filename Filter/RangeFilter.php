@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Xaben\DataFilterDoctrine\Filter;
 
-use Xaben\DataFilter\Filter\AbstractFilter;
-use Xaben\DataFilter\Filter\FilterInterface;
+use Xaben\DataFilter\Filter\BaseFilter;
+use Xaben\DataFilter\Filter\Filter;
 
-class RangeFilter extends AbstractFilter implements FilterInterface
+class RangeFilter extends BaseFilter implements Filter
 {
-    /**
-     * @param mixed $value
-     * @return array
-     */
-    public function getFilter($value): array
+    public function getFilter(mixed $value): array
     {
         $separator = $this->options['separator'] ?? '..';
+        $name = preg_replace('/[\W]/', '_', $this->name);
 
         if ($this->isEmpty($value) || $value === $separator || !str_contains($value, $separator)) {
             return [];
@@ -25,15 +22,15 @@ class RangeFilter extends AbstractFilter implements FilterInterface
 
         $result = [];
         if ($start !== '' && $end !== '') {
-            $result[$this->name]['statement'] = "{$this->columnName} BETWEEN :{$this->name}min AND :{$this->name}max";
-            $result[$this->name]['parameters'][$this->name . 'min'] = $this->dataType->prepare($start);
-            $result[$this->name]['parameters'][$this->name . 'max'] = $this->dataType->prepare($end);
+            $result[$name]['statement'] = "{$this->columnName} BETWEEN :{$name}min AND :{$name}max";
+            $result[$name]['parameters'][$name . 'min'] = $this->dataType->prepare($start);
+            $result[$name]['parameters'][$name . 'max'] = $this->dataType->prepare($end);
         } elseif ($start !== '') {
-            $result[$this->name]['statement'] = "{$this->columnName} >= :{$this->name}";
-            $result[$this->name]['parameters'][$this->name] = $this->dataType->prepare($start);
+            $result[$name]['statement'] = "{$this->columnName} >= :{$name}";
+            $result[$name]['parameters'][$name] = $this->dataType->prepare($start);
         } elseif ($end !== '') {
-            $result[$this->name]['statement'] = "{$this->columnName} <= :{$this->name}";
-            $result[$this->name]['parameters'][$this->name] = $this->dataType->prepare($end);
+            $result[$name]['statement'] = "{$this->columnName} <= :{$name}";
+            $result[$name]['parameters'][$name] = $this->dataType->prepare($end);
         }
 
         return $result;

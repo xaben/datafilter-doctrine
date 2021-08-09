@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Xaben\DataFilterDoctrine\Filter;
 
 use Xaben\DataFilter\Exception\InvalidValueException;
-use Xaben\DataFilter\Filter\AbstractFilter;
-use Xaben\DataFilter\Filter\FilterInterface;
+use Xaben\DataFilter\Filter\BaseFilter;
+use Xaben\DataFilter\Filter\Filter;
 
-class InArrayFilter extends AbstractFilter implements FilterInterface
+class InArrayFilter extends BaseFilter implements Filter
 {
-    public function getFilter($value): array
+    public function getFilter(mixed $value): array
     {
         if ($this->isEmpty($value)) {
             return [];

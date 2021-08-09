@@ -6,9 +6,9 @@ namespace Xaben\DataFilterDoctrine\Definition;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Xaben\DataFilter\Definition\FilterDefinitionInterface;
+use Xaben\DataFilter\Definition\FilterDefinition;
 
-interface DoctrineORMFilterDefinitionInterface extends FilterDefinitionInterface
+interface DoctrineORMFilterDefinition extends FilterDefinition
 {
     public function getQueryBuilder(EntityRepository $repository): QueryBuilder;
 }

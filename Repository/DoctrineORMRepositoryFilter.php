@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Xaben\DataFilterDoctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Xaben\DataFilterDoctrine\Definition\DoctrineORMFilterDefinitionInterface;
+use Xaben\DataFilterDoctrine\Definition\DoctrineORMFilterDefinition;
 use Xaben\DataFilter\Filter\CollectionFilter;
 use Xaben\DataFilter\Filter\Result;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,7 +55,7 @@ trait DoctrineORMRepositoryFilter
 
         $filterDefinition = $filter->getDefinition();
 
-        if ($filterDefinition instanceof DoctrineORMFilterDefinitionInterface) {
+        if ($filterDefinition instanceof DoctrineORMFilterDefinition) {
             return $filterDefinition->getQueryBuilder($this);
         }
 
@@ -69,7 +69,7 @@ trait DoctrineORMRepositoryFilter
     {
         return $this->getCount(
             $this->getFilterQueryBuilder($filter),
-            $filter->getCriteria()
+            $filter->getAllCriteria()
         );
     }
 
@@ -83,7 +83,7 @@ trait DoctrineORMRepositoryFilter
         }
 
         // filtering
-        foreach ($filter->getCriteria() as $criteria) {
+        foreach ($filter->getAllCriteria() as $criteria) {
             $qb->andWhere($criteria['statement']);
             if (isset($criteria['parameters'])) {
                 foreach ($criteria['parameters'] as $key => $value) {
